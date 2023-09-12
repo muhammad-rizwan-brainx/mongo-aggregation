@@ -24,3 +24,5 @@ const orderSchema = mongoose.Schema(
     timestampss: true,
   }
 );
+
+module.exports = mongoose.model("Order", orderSchema);
