@@ -60,11 +60,19 @@ const validateLoginCredentials = (req) => {
   const validatePassword = async(password1, password2)=>{
     console.log("Here")
     return await bcrypt.compare(password1, password2);
-
   }
+
+  const validateProductAttributes = (req) => {
+    if (!req.body.name || !req.body.unitPrice || !req.body.availableQuantity) {
+      return false;
+    }
+    return true;
+  };
+
 module.exports = {
     validateForgotPasswordCredentials,
     validateSignupCredentials,
     validateLoginCredentials,
-    validatePassword
+    validatePassword,
+    validateProductAttributes
 };

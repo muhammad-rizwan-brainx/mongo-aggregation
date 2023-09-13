@@ -2,10 +2,6 @@ const userServices = require("../services/userServices");
 const validationServices = require("../services/validationServices");
 const authServices = require("../services/authServices");
 const sendEmail = require("../services/emailServices");
-const dotenv = require("dotenv");
-dotenv.config();
-
-
 
 exports.signup = async (req, res, next) => {
   try {
@@ -44,7 +40,7 @@ exports.login = async (req, res, next) => {
       });
     }
     console.log(password, user.password)
-    const result = validationServices.validatePassword(user.password, password);
+    const result = await validationServices.validatePassword(password, user.password);
     if (result) {
       const token = authServices.createToken(email, user._id);
       authServices.addResetToken(email, token);
@@ -101,7 +97,7 @@ exports.forgotPassword = async (req, res, next) => {
       console.log("heree")
       authServices.addResetToken(email, resetToken, expiration);
       console.log("after saver")
-      sendEmail({resetToken, email})
+      await sendEmail({resetToken, email})
       
       res.status(200).json({ message: "Password reset link sent successfully" , token : resetToken});
     } catch (error) {
